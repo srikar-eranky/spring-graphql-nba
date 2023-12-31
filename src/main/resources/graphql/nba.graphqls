@@ -1,0 +1,33 @@
+type Player {
+    id: ID!
+    name: String!
+    age: Int
+    height: String
+    position: Position!
+}
+
+type Team {
+    id: ID!
+    name: String!
+    city: String!
+    arena: String
+    founded: String
+    owner: String
+    coach: String!
+    players: [Player!]!
+}
+
+type Query {
+    teams : [Team]
+    players(teamId : ID) : [Player] 
+    player(playerId : ID) : Player
+}
+
+enum Position {
+    FORWARD
+    CENTER
+    GUARD
+}
+
+
+
