@@ -12,3 +12,13 @@ Create a data source @Configuration class and define @Bean data source<br>
 Create entities, row mappers to map from db to java class and DAOs (@Repository) to fetch data from DB using @JdbcTemplate<br>
 Define h2 db properties in application.properties and disable jpa hibernate as we will use pure spring jdbc only for this project<br>
 Inject the DAO into the controller to get the data from DB when the graphql query is issued from the graphql web console
+
+# Queries to execute
+query {<br>
+teams {<br>
+    id<br>
+    name<br>
+    city<br>
+  }<br>
+}<br>
+  
