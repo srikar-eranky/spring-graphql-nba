@@ -25,4 +25,25 @@ teams {<br>
     city<br>
   }<br>
 }<br>
+
+# Constraints
+A Player can belong to only one Team<br>
+A Player can have only one Position<br>
+A Team can have only 5 players<br>
+
+# Stats
+Team stats - Played, Won, Lost, PPG, Rebounds, Assists, Blocks, FG %, FT % <br>
+Player stats - Min, PTS, FG %, FT%, 3P %, ASS, STL, BLK <br>
+
+# Actions
+List all teams <br>
+List all players in a team <br>
+Create or Remove Team <br>
+Create or Remove Player <br>
+Add or remove Player from Team <br>
+List all stats for a Team , for a Player <br>
+List all players in Team with their stats <br>
+
+
+
   
