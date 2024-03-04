@@ -14,6 +14,7 @@ Define h2 db properties in application.properties and disable jpa hibernate as w
 Inject the DAO into the controller to get the data from DB when the graphql query is issued from the graphql web console
 
 # Queries to execute
+GraphQL browser : http://localhost:8080/graphiql?path=/graphql <br>
 query {<br>
 teams {<br>
     id<br>
