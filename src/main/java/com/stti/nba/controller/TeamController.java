@@ -3,6 +3,7 @@ package com.stti.nba.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -15,10 +16,13 @@ public class TeamController {
     @Autowired
     TeamDAO teamDAO;
 
-    @QueryMapping
+    @QueryMapping("teams")
     public List<Team> teams(){
         return teamDAO.getAllTeams();
-
     }
 
+    @QueryMapping("teamById")
+    public Team teamById(@Argument("id") int id){
+        return teamDAO.getTeamByID(id);
+    }
 }

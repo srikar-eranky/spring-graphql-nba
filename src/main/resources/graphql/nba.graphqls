@@ -14,13 +14,19 @@ type Team {
     founded: String
     owner: String
     coach: String!
-    players: [Player!]!
+    players: [Player]
+}
+
+type Mutation {
+    createPlayer(teamId: ID, name: String, position: Position) : Int
 }
 
 type Query {
     teams : [Team]
-    players(teamId : ID) : [Player] 
-    player(playerId : ID) : Player
+    players : [Player]
+    teamById(id: ID) : Team
+    playersByTeamId(teamId : ID) : [Player] 
+    playerByPlayerId(id : ID) : Player
 }
 
 enum Position {

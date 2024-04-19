@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 import com.stti.nba.entity.Player;
-import com.stti.nba.entity.Team;
 
 public class PlayerRowMapper implements RowMapper<Player> {
 

@@ -24,6 +24,10 @@ public class TeamDAO {
         return jdbcTemplate.query("SELECT * from TEAM", new TeamRowMapper());
     }
 
-
-
+    public Team getTeamByID(int id){
+        if(id < 1 || id > 4){
+            throw new IllegalArgumentException("id out of bounds");
+        }
+        return jdbcTemplate.queryForObject("SELECT * FROM TEAM WHERE id = ?", new Object[]{id}, new TeamRowMapper());
+    }
 }
