@@ -30,4 +30,8 @@ public class TeamDAO {
         }
         return jdbcTemplate.queryForObject("SELECT * FROM TEAM WHERE id = ?", new Object[]{id}, new TeamRowMapper());
     }
+
+    public int createTeam(int teamId, String name, String coach){
+        return jdbcTemplate.update("INSERT into TEAM (teamId,name,coach) VALUES (?,?,?)", teamId, name, coach);
+    }
 }

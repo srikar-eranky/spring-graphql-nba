@@ -50,6 +50,23 @@
 			<artifactId>spring-graphql-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter</artifactId>
+			<version>15.0.0</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.graphql-java</groupId>
+    		<artifactId>graphql-java-tools</artifactId>
+    		<version>5.2.4</version>
+		</dependency>
+		<!-- testing facilities -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter-test</artifactId>
+			<version>15.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

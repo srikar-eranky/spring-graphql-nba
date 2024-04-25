@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.stti.nba.entity.Player;
+import com.stti.nba.exceptions.CustomGraphQLException;
+
+import graphql.GraphQLException;
 
 @Repository
 public class PlayerDAO {
@@ -26,14 +29,14 @@ public class PlayerDAO {
 
     public Player getPlayerByPlayerId(int id){
         if(id < 1 || id > 6){
-            throw new IllegalArgumentException("id out of bounds");
+            throw new CustomGraphQLException(400,"ID out of bounds");
         }
         return jdbcTemplate.queryForObject("SELECT * FROM PLAYER where id = ?", new Object[]{id}, new PlayerRowMapper());
     }
 
     public List<Player> getPlayersByTeamId(int id){
         if(id < 1 || id > 4){
-            throw new IllegalArgumentException("id out of bounds");
+            throw new CustomGraphQLException(400, "ID out of bounds");
         }
         return jdbcTemplate.query("Select * from PLAYER where team_id = ?", new Object[]{id}, new PlayerRowMapper());
     }

@@ -19,6 +19,7 @@ type Team {
 
 type Mutation {
     createPlayer(teamId: ID, name: String, position: Position) : Int
+    createTeam(teamId: ID, name: String, coach: String): Int
 }
 
 type Query {
