@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.stti.nba.entity.Team;
+import com.stti.nba.errors.dataexceptions.TeamAlreadyExistsException;
+import com.stti.nba.errors.dataexceptions.TeamNotFoundException;
 
 @Repository
 public class TeamDAO {
@@ -20,18 +22,30 @@ public class TeamDAO {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    // get all teams
     public List<Team> getAllTeams(){
         return jdbcTemplate.query("SELECT * from TEAM", new TeamRowMapper());
     }
 
-    public Team getTeamByID(int id){
-        if(id < 1 || id > 4){
-            throw new IllegalArgumentException("id out of bounds");
+    // get team by team id
+    @SuppressWarnings("deprecation")
+    public Team getTeamByID(int teamId) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM TEAM WHERE id = ?", new Object[]{teamId}, new TeamRowMapper());
+        } catch (Exception e) {
+            throw new TeamNotFoundException("Team " + teamId + " could not be found");
         }
-        return jdbcTemplate.queryForObject("SELECT * FROM TEAM WHERE id = ?", new Object[]{id}, new TeamRowMapper());
     }
 
-    public int createTeam(int teamId, String name, String coach){
-        return jdbcTemplate.update("INSERT into TEAM (teamId,name,coach) VALUES (?,?,?)", teamId, name, coach);
+    // create a new team
+    public int createTeam(String name, String city, String coach) {
+        try {
+            return jdbcTemplate.update("INSERT into TEAM (name,city,coach) VALUES (?,?,?)", name, city, coach);
+        } catch (Exception e) {
+            throw new TeamAlreadyExistsException("Team already exists");
+        }
     }
+
+    //update team
+
 }

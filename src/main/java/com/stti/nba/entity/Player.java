@@ -7,6 +7,7 @@ public class Player {
     private int age;
     private String height;
     private String position;
+    private boolean retired;
 
     
     public int getTeamId() {
@@ -55,5 +56,13 @@ public class Player {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public boolean getRetired(){
+        return this.retired;
+    }
+    
+    public void setRetired(boolean retired) {
+        this.retired = retired;
     }
 }

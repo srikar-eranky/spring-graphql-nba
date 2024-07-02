@@ -19,15 +19,17 @@ type Team {
 
 type Mutation {
     createPlayer(teamId: ID, name: String, position: Position) : Int
-    createTeam(teamId: ID, name: String, coach: String): Int
+    createTeam(name: String, city: String, coach: String): Int
+    updatePlayer(playerId: ID, name: String, age: Int) : Int
+    deletePlayer(playerId: ID) : Player
 }
 
 type Query {
     teams : [Team]
     players : [Player]
+    playerByPlayerId(id: ID) : Player
     teamById(id: ID) : Team
-    playersByTeamId(teamId : ID) : [Player] 
-    playerByPlayerId(id : ID) : Player
+    playersByTeamId(teamId: ID) : [Player]
 }
 
 enum Position {

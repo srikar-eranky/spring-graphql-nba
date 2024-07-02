@@ -8,6 +8,7 @@ public class Team {
     private String arena;
     private String founded;
     private String owner;
+    private boolean active;
     
     public int getId() {
         return id;
@@ -51,7 +52,10 @@ public class Team {
     public void setOwner(String owner) {
         this.owner = owner;
     }
-
-    
-
+    public boolean getActive(){
+        return this.active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

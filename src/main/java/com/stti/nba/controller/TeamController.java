@@ -23,12 +23,12 @@ public class TeamController {
     }
 
     @QueryMapping("teamById")
-    public Team teamById(@Argument("id") int id){
+    public Team teamById(@Argument("id") int id) {
         return teamDAO.getTeamByID(id);
     }
 
-    @MutationMapping
-    public int createTeam(@Argument int teamId, @Argument String name, @Argument String coach){
-        return teamDAO.createTeam(teamId, name, coach);
+    @MutationMapping(name = "createTeam")
+    public int createTeam(@Argument String name, @Argument String city, @Argument String coach) {
+        return teamDAO.createTeam(name, city, coach);
     }
 }

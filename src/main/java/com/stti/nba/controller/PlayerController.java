@@ -24,7 +24,7 @@ public class PlayerController {
     }
 
     @QueryMapping("playerByPlayerId")
-    public Player playerByPlayerId(@Argument("id") int id){
+    public Player playerByPlayerId(@Argument("id") int id) {
         return playerDAO.getPlayerByPlayerId(id);
     }
 
@@ -34,13 +34,21 @@ public class PlayerController {
     }
 
     // post
-    @MutationMapping
+    @MutationMapping(name = "createPlayer")
     public int createPlayer(@Argument int teamId, @Argument String name, @Argument String position){
-        return playerDAO.createPlayer(teamId,name,position);
+        // do not add player to non existent team
+        return playerDAO.createPlayer(teamId, name,position);
     }
 
     //update
-    
+    @MutationMapping(name = "updatePlayer")
+    public int updatePlayer(@Argument int playerId, @Argument String name, @Argument Integer age) {
+        return playerDAO.updatePlayer(playerId, name, age);
+    }
 
     //delete
+    @MutationMapping(name = "deletePlayer")
+    public Player deletePlayer(@Argument int playerId) {
+        return playerDAO.deletePlayer(playerId);
+    }
 }
