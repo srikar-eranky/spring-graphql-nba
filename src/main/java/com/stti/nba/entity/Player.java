@@ -8,7 +8,6 @@ public class Player {
     private String height;
     private String position;
     private boolean retired;
-
     
     public int getTeamId() {
         return teamId;

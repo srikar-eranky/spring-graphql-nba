@@ -5,6 +5,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,7 @@ import com.stti.nba.entity.Player;
 import com.stti.nba.errors.dataexceptions.InvalidArgumentException;
 import com.stti.nba.errors.dataexceptions.PlayerAlreadyExistsException;
 import com.stti.nba.errors.dataexceptions.PlayerNotFoundException;
+import com.stti.nba.errors.dataexceptions.TeamNotFoundException;
 
 @Repository
 public class PlayerDAO {
@@ -24,6 +27,11 @@ public class PlayerDAO {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    @Autowired
+    public void setTemplate(JdbcTemplate jdbcTemplate) { 
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     // get all players
     public List<Player> getAllPlayers(){
         return jdbcTemplate.query("SELECT * from PLAYER", new PlayerRowMapper());
@@ -31,10 +39,10 @@ public class PlayerDAO {
 
     // get a player by their player id
     @SuppressWarnings("deprecation")
-    public Player getPlayerByPlayerId(@Argument("id") int id) throws PlayerNotFoundException {
+    public Player getPlayerByPlayerId(@Argument("id") int id) {
         try {
             return jdbcTemplate.queryForObject("SELECT * FROM PLAYER where id = ?", new Object[]{id}, new PlayerRowMapper());
-        } catch (Exception e){
+        } catch (EmptyResultDataAccessException e){
             String errMsg = "Player " + id + " can't be found";
             throw new PlayerNotFoundException(errMsg);
         }
@@ -44,19 +52,18 @@ public class PlayerDAO {
     @SuppressWarnings("deprecation")
     public List<Player> getPlayersByTeamId(int teamId) {
         // Use a single query to check for team existence and retrieve players
-        List<Player> players = jdbcTemplate.query(
-                "SELECT * FROM PLAYER WHERE TEAM_ID = ? AND EXISTS (SELECT 1 FROM TEAM WHERE ID = ?)",
-                new Object[]{teamId, teamId},
-                new PlayerRowMapper()
-        );
-        return players;
+        try {
+            return jdbcTemplate.query("SELECT * FROM PLAYER WHERE TEAM_ID = ?", new Object[]{teamId}, new PlayerRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new TeamNotFoundException("team " + teamId + " not found");
+        }
     }
 
     // create a player
     public int createPlayer(int teamId, String name, String position) {
         try {
             return jdbcTemplate.update("INSERT into PLAYER (team_id, name, position) VALUES (?, ?, ?)", teamId, name, position);
-        } catch (Exception e) {
+        } catch (DuplicateKeyException e) {
             throw new PlayerAlreadyExistsException("Player already exists");
         }
     }
@@ -94,13 +101,11 @@ public class PlayerDAO {
             throw new InvalidArgumentException("no args provided");
         }
 
-        int count = jdbcTemplate.update(sql.toString(), array);
-        
-        if(count <= 0) {
+        try {
+            return jdbcTemplate.update(sql.toString(), array);
+        } catch (Exception e){
             throw new PlayerNotFoundException("player " + playerId + " not found");
         }
-        
-        return count;
     }
 
     // delete a player - returns deleted player
@@ -112,5 +117,16 @@ public class PlayerDAO {
             return p;
         }
         return null;
+    }
+
+    public List<Player> deletePlayersOnTeam(int teamId) {
+        List<Player> players = getPlayersByTeamId(teamId);
+
+        try {
+            jdbcTemplate.update("DELETE FROM Player WHERE team_id = ?", new Object[]{teamId});
+            return players;
+        } catch (Exception e) {
+            throw new TeamNotFoundException("Team " + teamId + " not found");
+        }
     }
 }

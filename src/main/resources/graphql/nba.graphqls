@@ -17,11 +17,67 @@ type Team {
     players: [Player]
 }
 
+type PlayerStats {
+    id: ID!
+    playerId: Int
+    minpergame: Float
+    ppg: Float
+    rpg: Float
+    apg: Float
+    stealspergame: Float
+    fgpercent: Float
+    ftpercent: Float
+    season: String
+}
+
+input PlayerStatsInput {
+    playerId: Int!
+    minpergame: Float
+    ppg: Float
+    rpg: Float
+    apg: Float
+    stealspergame: Float
+    fgpercent: Float
+    ftpercent: Float
+    season: String
+}
+
+type TeamStats {
+    id: ID!
+    teamId: Int
+    played: Int
+    won: Int
+    lost: Int
+    ppg: Float
+    rpg: Float
+    apg: Float
+    fgpercent: Float
+    ftpercent: Float
+    season: String
+}
+
+input TeamStatsInput {
+    teamId: Int
+    played: Int
+    won: Int
+    lost: Int
+    ppg: Float
+    rpg: Float
+    apg: Float
+    fgpercent: Float
+    ftpercent: Float
+    season: String
+}
+
 type Mutation {
     createPlayer(teamId: ID, name: String, position: Position) : Int
     createTeam(name: String, city: String, coach: String): Int
     updatePlayer(playerId: ID, name: String, age: Int) : Int
+    updateTeam(teamId: ID, name: String, city: String, coach: String) : Int
     deletePlayer(playerId: ID) : Player
+    deleteTeam(teamId: ID) : Team
+    updatePlayerStats(playerStatsInput: PlayerStatsInput!): Int
+    updateTeamStats(teamStatsInput: TeamStatsInput!): Int
 }
 
 type Query {
@@ -30,6 +86,10 @@ type Query {
     playerByPlayerId(id: ID) : Player
     teamById(id: ID) : Team
     playersByTeamId(teamId: ID) : [Player]
+    getPlayerStats(playerId: ID) : [PlayerStats]
+    getPlayerStatsBySeason(playerId: ID, season: String): PlayerStats
+    getTeamStats(teamId: ID) : [TeamStats]
+    getTeamStatsBySeason(teamId: ID, season: String): TeamStats
 }
 
 enum Position {

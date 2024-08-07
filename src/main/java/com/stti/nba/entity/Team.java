@@ -1,5 +1,7 @@
 package com.stti.nba.entity;
 
+import java.util.List;
+
 public class Team {
     private int id;
     private String name;
@@ -9,6 +11,7 @@ public class Team {
     private String founded;
     private String owner;
     private boolean active;
+    private List<Player> players;
     
     public int getId() {
         return id;
@@ -57,5 +60,11 @@ public class Team {
     }
     public void setActive(boolean active) {
         this.active = active;
+    }
+    public List<Player> getPlayers() {
+        return players;
+    }
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }

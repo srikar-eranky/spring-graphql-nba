@@ -27,31 +27,33 @@ create TABLE PLAYER(
     FOREIGN KEY (team_id) REFERENCES TEAM(id)
 );
 
+CREATE TABLE PLAYERSTATS (
+    id INT NOT NULL AUTO_INCREMENT,
+    player_id INT NOT NULL,
+    minpergame FLOAT,
+    ppg FLOAT,
+    rpg FLOAT,
+    apg FLOAT,
+    stealspergame FLOAT,
+    fgpercent FLOAT,
+    ftpercent FLOAT,
+    season varchar(100),
+    PRIMARY KEY (id),
+    FOREIGN KEY (player_id) REFERENCES PLAYER(id)
+);
+
 create TABLE TEAMSTATS(
     id int not null AUTO_INCREMENT,
     team_id int not null,
     played int,
     won int,
     lost int,
-    points int,
-    rebounds int,
-    assists int,
-    fgpercent int,
-    ftpercent int,
+    ppg FLOAT,
+    rpg FLOAT,
+    apg FLOAT,
+    fgpercent FLOAT,
+    ftpercent FLOAT,
+    season varchar(100),
     PRIMARY KEY (id),
     FOREIGN KEY (team_id) REFERENCES TEAM(id)
-);
-
-create TABLE PLAYERSTATS(
-    id int not null AUTO_INCREMENT,
-    player_id int not null,
-    mins int,
-    points int,
-    rebounds int,
-    assists int,
-    steals int,
-    fgpercent int,
-    ftpercent int,
-    PRIMARY KEY (id),
-    FOREIGN KEY (player_id) REFERENCES PLAYER(id)
 );

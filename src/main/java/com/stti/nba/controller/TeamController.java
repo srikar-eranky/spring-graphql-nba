@@ -31,4 +31,14 @@ public class TeamController {
     public int createTeam(@Argument String name, @Argument String city, @Argument String coach) {
         return teamDAO.createTeam(name, city, coach);
     }
+
+    @MutationMapping(name = "updateTeam")
+    public int updateTeam(@Argument int teamId, @Argument String name, @Argument String city, @Argument String coach) {
+        return teamDAO.updateTeam(teamId, name, city, coach);
+    }
+
+    @MutationMapping(name = "deleteTeam")
+    public Team deleteTeam(@Argument int teamId) {
+        return teamDAO.deleteTeam(teamId);
+    }
 }
