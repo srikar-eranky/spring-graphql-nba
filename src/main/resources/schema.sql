@@ -57,3 +57,10 @@ create TABLE TEAMSTATS(
     PRIMARY KEY (id),
     FOREIGN KEY (team_id) REFERENCES TEAM(id)
 );
+
+create TABLE APP_USER(
+    id int not null AUTO_INCREMENT,
+    username varchar(100) not null unique,
+    password varchar(100),
+    PRIMARY KEY (id)
+);

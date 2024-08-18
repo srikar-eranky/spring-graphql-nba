@@ -47,6 +47,8 @@ VALUES (3, 82, 45, 37, 109.4, 48.2, 24.5, 46.2, 77.8, '2015');
 INSERT INTO TEAMSTATS (team_id, played, won, lost, ppg, rpg, apg, fgpercent, ftpercent, season) 
 VALUES (4, 82, 60, 22, 116.3, 43.7, 28.9, 50.1, 80.5, '2016');
 
+INSERT INTO APP_USER (username, password) VALUES ('james', '12345');
+
 
 
 

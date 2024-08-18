@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.stti.nba.entity.Player;
 import com.stti.nba.entity.Team;
 import com.stti.nba.errors.dataexceptions.InvalidArgumentException;
 import com.stti.nba.errors.dataexceptions.TeamAlreadyExistsException;

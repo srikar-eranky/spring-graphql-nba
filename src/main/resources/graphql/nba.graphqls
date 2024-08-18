@@ -69,6 +69,17 @@ input TeamStatsInput {
     season: String
 }
 
+type AppUser {
+    id: ID!
+    username: String
+    password: String
+}
+
+input UserInput {
+    username: String
+    password: String
+}
+
 type Mutation {
     createPlayer(teamId: ID, name: String, position: Position) : Int
     createTeam(name: String, city: String, coach: String): Int
@@ -78,6 +89,7 @@ type Mutation {
     deleteTeam(teamId: ID) : Team
     updatePlayerStats(playerStatsInput: PlayerStatsInput!): Int
     updateTeamStats(teamStatsInput: TeamStatsInput!): Int
+    createUser(userInput: UserInput!): Int
 }
 
 type Query {
@@ -96,6 +108,11 @@ enum Position {
     FORWARD
     CENTER
     GUARD
+}
+
+enum Role {
+    VIEWER
+    ADMIN
 }
 
 

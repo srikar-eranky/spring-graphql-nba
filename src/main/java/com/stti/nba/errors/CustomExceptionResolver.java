@@ -8,6 +8,7 @@ import com.stti.nba.errors.dataexceptions.PlayerAlreadyExistsException;
 import com.stti.nba.errors.dataexceptions.PlayerNotFoundException;
 import com.stti.nba.errors.dataexceptions.TeamAlreadyExistsException;
 import com.stti.nba.errors.dataexceptions.TeamNotFoundException;
+import com.stti.nba.errors.dataexceptions.UserAlreadyExistsException;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
@@ -27,7 +28,8 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
               .location(env.getField().getSourceLocation())
               .build();
         } else if (ex instanceof PlayerAlreadyExistsException || 
-        ex instanceof TeamAlreadyExistsException) {
+        ex instanceof TeamAlreadyExistsException ||
+        ex instanceof UserAlreadyExistsException) {
             return GraphqlErrorBuilder.newError()
               .errorType(ErrorType.BAD_REQUEST)
               .message(ex.getMessage())
@@ -41,8 +43,7 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
             .path(env.getExecutionStepInfo().getPath())
             .location(env.getField().getSourceLocation())
             .build();
-        }
-        else {
+        } else {
             return null;
         }
     }
