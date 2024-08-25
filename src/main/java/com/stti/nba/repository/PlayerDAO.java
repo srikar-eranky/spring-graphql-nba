@@ -1,6 +1,7 @@
 package com.stti.nba.repository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.sql.DataSource;
 
@@ -12,6 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.stti.nba.entity.Player;
+import com.stti.nba.entity.PlayerInput;
+import com.stti.nba.entity.Team;
 import com.stti.nba.errors.dataexceptions.InvalidArgumentException;
 import com.stti.nba.errors.dataexceptions.PlayerAlreadyExistsException;
 import com.stti.nba.errors.dataexceptions.PlayerNotFoundException;
@@ -60,16 +63,29 @@ public class PlayerDAO {
     }
 
     // create a player
-    public int createPlayer(int teamId, String name, String position) {
+    public int createPlayer(int playerId, int teamId, PlayerInput playerInput) {
+        // case 1: same player cannot be on same team
+        // case 2: same player cannot be on different teams
+        // case 3: players on different teams can have the same name
+        String name = playerInput.getName();
+        int age = playerInput.getAge();
+        String height = playerInput.getHeight();
+        String position = playerInput.getPosition();
+
         try {
-            return jdbcTemplate.update("INSERT into PLAYER (team_id, name, position) VALUES (?, ?, ?)", teamId, name, position);
+            return jdbcTemplate.update("INSERT into PLAYER (id, team_id, name, age, height, position) VALUES (?, ?, ?, ?, ?, ?)", playerId, teamId, name, age, height, position);
         } catch (DuplicateKeyException e) {
             throw new PlayerAlreadyExistsException("Player already exists");
         }
     }
 
     // update Player's name and age
-    public int updatePlayer(int playerId, String name, Integer age) {
+    public int updatePlayer(int playerId, PlayerInput playerInput) {
+        Integer age = playerInput.getAge();
+        int teamId = playerInput.getTeamId();
+        String name = playerInput.getName();
+        String height = playerInput.getHeight();
+        String position = playerInput.getPosition();
 
         if (age != null && age.intValue() <= 0) {
             throw new InvalidArgumentException("age");
@@ -93,6 +109,31 @@ public class PlayerDAO {
             arr.add(age.intValue());
             first  = false;
         }
+
+        if (height != null) {
+            if (!first) {
+                sql.append(", ");
+            }
+            sql.append("height = ?");
+            arr.add(height);
+            first = false;
+        }
+
+        if (position != null) {
+            if (!first) {
+                sql.append(", ");
+            }
+            sql.append("position = ?");
+            arr.add(position);
+            first = false;
+        }
+
+        if (!first) {
+            sql.append(", ");
+        }
+        sql.append("team_id = ?");
+        arr.add(teamId);
+
         sql.append(" WHERE id = ?");
         arr.add(playerId);
         Object[] array = arr.toArray(new Object[0]);

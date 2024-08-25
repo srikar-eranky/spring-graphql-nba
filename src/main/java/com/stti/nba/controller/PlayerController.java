@@ -1,6 +1,7 @@
 package com.stti.nba.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -9,6 +10,7 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import com.stti.nba.entity.Player;
+import com.stti.nba.entity.PlayerInput;
 import com.stti.nba.repository.PlayerDAO;
 
 @Controller
@@ -35,15 +37,17 @@ public class PlayerController {
 
     // post
     @MutationMapping(name = "createPlayer")
-    public int createPlayer(@Argument int teamId, @Argument String name, @Argument String position){
+    public int createPlayer(@Argument int teamId, @Argument PlayerInput playerInput){
         // do not add player to non existent team
-        return playerDAO.createPlayer(teamId, name,position);
+        Random random = new Random();
+        int playerId = 1000 + random.nextInt(9000);
+        return playerDAO.createPlayer(playerId, teamId, playerInput);
     }
 
     //update
     @MutationMapping(name = "updatePlayer")
-    public int updatePlayer(@Argument int playerId, @Argument String name, @Argument Integer age) {
-        return playerDAO.updatePlayer(playerId, name, age);
+    public int updatePlayer(@Argument int playerId, @Argument PlayerInput playerInput) {
+        return playerDAO.updatePlayer(playerId, playerInput);
     }
 
     //delete

@@ -11,6 +11,7 @@ public class TeamStatsInput {
     private double fgpercent;
     private double ftpercent;
     private String season;
+    private int confRank;
 
     public int getTeamId() {
         return teamId;
@@ -90,5 +91,13 @@ public class TeamStatsInput {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public int getConfRank() {
+        return confRank;
+    }
+
+    public void setConfRank(int confRank) {
+        this.confRank = confRank;
     }
 }

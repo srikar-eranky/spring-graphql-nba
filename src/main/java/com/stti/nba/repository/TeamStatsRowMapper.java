@@ -23,7 +23,9 @@ public class TeamStatsRowMapper implements RowMapper<TeamStats> {
         teamStats.setApg(rs.getDouble("apg"));
         teamStats.setFgpercent(rs.getDouble("fgpercent"));
         teamStats.setFtpercent(rs.getDouble("ftpercent"));
+        teamStats.setFgthreepercent(rs.getDouble("fgthreepercent"));
         teamStats.setSeason(rs.getString("season"));
+        teamStats.setConfRank(rs.getInt("confRank"));
         
         return teamStats;
     }

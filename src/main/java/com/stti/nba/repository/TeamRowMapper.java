@@ -19,7 +19,8 @@ public class TeamRowMapper implements RowMapper<Team>{
         team.setCoach(rs.getString("coach"));
         team.setOwner(rs.getString("owner"));
         team.setFounded(rs.getString("founded"));
-
+        team.setConference(rs.getString("conference"));
+        
         return team;
         
     }

@@ -1,20 +1,71 @@
 type Player {
     id: ID!
+    teamId: Int!
     name: String!
     age: Int
     height: String
-    position: Position!
+    position: String
+}
+
+input PlayerInput {
+    teamId: Int!
+    name: String!
+    age: Int
+    height: String
+    position: String
 }
 
 type Team {
     id: ID!
     name: String!
-    city: String!
+    city: String
     arena: String
     founded: String
     owner: String
-    coach: String!
+    coach: String
+    conference: String
     players: [Player]
+}
+
+input TeamInput {
+    name: String!
+    city: String
+    arena: String
+    founded: String
+    owner: String
+    coach: String
+    conference: String
+}
+
+type TeamStats {
+    id: ID!
+    teamId: Int
+    played: Int
+    won: Int
+    lost: Int
+    ppg: Float
+    rpg: Float
+    apg: Float
+    fgpercent: Float
+    ftpercent: Float
+    fgthreepercent: Float
+    season: String
+    confRank: Int
+}
+
+input TeamStatsInput {
+    teamId: Int
+    played: Int
+    won: Int
+    lost: Int
+    ppg: Float
+    rpg: Float
+    apg: Float
+    fgpercent: Float
+    ftpercent: Float
+    fgthreepercent: Float
+    season: String
+    confRank: Int
 }
 
 type PlayerStats {
@@ -42,33 +93,6 @@ input PlayerStatsInput {
     season: String
 }
 
-type TeamStats {
-    id: ID!
-    teamId: Int
-    played: Int
-    won: Int
-    lost: Int
-    ppg: Float
-    rpg: Float
-    apg: Float
-    fgpercent: Float
-    ftpercent: Float
-    season: String
-}
-
-input TeamStatsInput {
-    teamId: Int
-    played: Int
-    won: Int
-    lost: Int
-    ppg: Float
-    rpg: Float
-    apg: Float
-    fgpercent: Float
-    ftpercent: Float
-    season: String
-}
-
 type AppUser {
     id: ID!
     username: String
@@ -81,12 +105,12 @@ input UserInput {
 }
 
 type Mutation {
-    createPlayer(teamId: ID, name: String, position: Position) : Int
-    createTeam(name: String, city: String, coach: String): Int
-    updatePlayer(playerId: ID, name: String, age: Int) : Int
-    updateTeam(teamId: ID, name: String, city: String, coach: String) : Int
-    deletePlayer(playerId: ID) : Player
-    deleteTeam(teamId: ID) : Team
+    createPlayer(teamId: ID, playerInput: PlayerInput!): Int
+    createTeam(teamInput: TeamInput!): Int
+    updatePlayer(playerId: ID, playerInput: PlayerInput!): Int
+    updateTeam(teamId: ID, teamInput: TeamInput!): Int
+    deletePlayer(playerId: ID): Player
+    deleteTeam(teamId: ID): Team
     updatePlayerStats(playerStatsInput: PlayerStatsInput!): Int
     updateTeamStats(teamStatsInput: TeamStatsInput!): Int
     createUser(userInput: UserInput!): Int
@@ -102,12 +126,6 @@ type Query {
     getPlayerStatsBySeason(playerId: ID, season: String): PlayerStats
     getTeamStats(teamId: ID) : [TeamStats]
     getTeamStatsBySeason(teamId: ID, season: String): TeamStats
-}
-
-enum Position {
-    FORWARD
-    CENTER
-    GUARD
 }
 
 enum Role {

@@ -12,7 +12,9 @@ public class TeamStats {
     private double apg;
     private double fgpercent;
     private double ftpercent;
+    private double fgthreepercent;
     private String season;
+    private int confRank;
 
     public int getId() {
         return id;
@@ -94,11 +96,27 @@ public class TeamStats {
         this.ftpercent = ftpercent;
     }
 
+    public double getFgthreepercent() {
+        return fgthreepercent;
+    }
+
+    public void setFgthreepercent(double fgthreepercent) {
+        this.fgthreepercent = fgthreepercent;
+    }
+
     public String getSeason() {
         return season;
     }
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public int getConfRank() {
+        return confRank;
+    }
+
+    public void setConfRank(int confRank) {
+        this.confRank = confRank;
     }
 }

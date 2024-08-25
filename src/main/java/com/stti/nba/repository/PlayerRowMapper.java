@@ -12,6 +12,7 @@ public class PlayerRowMapper implements RowMapper<Player> {
     public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
         final Player player = new Player();
         player.setId(rs.getInt("id"));
+        player.setTeamId(rs.getInt("team_id"));
         player.setName(rs.getString("name"));
         player.setAge(rs.getInt("age"));
         player.setHeight(rs.getString("height"));

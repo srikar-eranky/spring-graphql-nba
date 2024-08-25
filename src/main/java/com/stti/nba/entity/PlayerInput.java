@@ -1,21 +1,12 @@
 package com.stti.nba.entity;
 
-public class Player {
-    private int id;
+public class PlayerInput {
     private int teamId;
     private String name;
     private int age;
     private String height;
     private String position;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    
     public int getTeamId() {
         return teamId;
     }

@@ -2,8 +2,7 @@ package com.stti.nba.entity;
 
 import java.util.List;
 
-public class Team {
-    private int id;
+public class TeamInput {
     private String name;
     private String city;
     private String coach;
@@ -12,14 +11,6 @@ public class Team {
     private String conference;
     private String owner;
     private List<Player> players;
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -56,7 +47,7 @@ public class Team {
     public String getFounded() {
         return founded;
     }
-    
+
     public void setFounded(String founded) {
         this.founded = founded;
     }
