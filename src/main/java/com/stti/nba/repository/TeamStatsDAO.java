@@ -28,6 +28,7 @@ public class TeamStatsDAO {
         try {
             return jdbcTemplate.query("SELECT * FROM TEAMSTATS WHERE team_id = ?", new Object[]{teamId}, new TeamStatsRowMapper());
         } catch (Exception e) {
+            e.printStackTrace();
             throw new TeamNotFoundException("Team " + teamId  + " not found");
         }
     }

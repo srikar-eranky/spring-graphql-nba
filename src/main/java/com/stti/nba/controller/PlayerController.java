@@ -37,11 +37,11 @@ public class PlayerController {
 
     // post
     @MutationMapping(name = "createPlayer")
-    public int createPlayer(@Argument int teamId, @Argument PlayerInput playerInput){
+    public int createPlayer(@Argument PlayerInput playerInput){
         // do not add player to non existent team
         Random random = new Random();
         int playerId = 1000 + random.nextInt(9000);
-        return playerDAO.createPlayer(playerId, teamId, playerInput);
+        return playerDAO.createPlayer(playerId, playerInput);
     }
 
     //update

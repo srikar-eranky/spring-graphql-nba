@@ -8,9 +8,12 @@ public class PlayerStats {
     private double ppg;
     private double rpg;
     private double apg;
+    private double bpg;
+    private double tov;
     private double stealspergame;
     private double fgpercent;
     private double ftpercent;
+    private double fgthreepercent;
     private String season;
 
     public int getId() {
@@ -69,6 +72,22 @@ public class PlayerStats {
         this.stealspergame = stealspergame;
     }
 
+    public double getBpg() {
+        return bpg;
+    }
+
+    public void setBpg(double bpg) {
+        this.bpg = bpg;
+    }
+
+    public double getTov() {
+        return tov;
+    }
+
+    public void setTov(double tov) {
+        this.tov = tov;
+    }
+
     public double getFgpercent() {
         return fgpercent;
     }
@@ -83,6 +102,14 @@ public class PlayerStats {
 
     public void setFtpercent(double ftpercent) {
         this.ftpercent = ftpercent;
+    }
+
+    public double getFgthreepercent() {
+        return fgthreepercent;
+    }
+    
+    public void setFgthreepercent(double fgthreepercent) {
+        this.fgthreepercent = fgthreepercent;
     }
 
     public String getSeason() {

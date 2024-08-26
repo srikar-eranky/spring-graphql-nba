@@ -1,7 +1,6 @@
 package com.stti.nba.repository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.sql.DataSource;
 
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.stti.nba.entity.Player;
 import com.stti.nba.entity.PlayerInput;
-import com.stti.nba.entity.Team;
 import com.stti.nba.errors.dataexceptions.InvalidArgumentException;
 import com.stti.nba.errors.dataexceptions.PlayerAlreadyExistsException;
 import com.stti.nba.errors.dataexceptions.PlayerNotFoundException;
@@ -63,14 +61,19 @@ public class PlayerDAO {
     }
 
     // create a player
-    public int createPlayer(int playerId, int teamId, PlayerInput playerInput) {
+    public int createPlayer(int playerId, PlayerInput playerInput) {
         // case 1: same player cannot be on same team
         // case 2: same player cannot be on different teams
         // case 3: players on different teams can have the same name
+        int teamId = playerInput.getTeamId();
         String name = playerInput.getName();
         int age = playerInput.getAge();
         String height = playerInput.getHeight();
         String position = playerInput.getPosition();
+
+        if(age < 0) {
+            throw new InvalidArgumentException("age");
+        }
 
         try {
             return jdbcTemplate.update("INSERT into PLAYER (id, team_id, name, age, height, position) VALUES (?, ?, ?, ?, ?, ?)", playerId, teamId, name, age, height, position);

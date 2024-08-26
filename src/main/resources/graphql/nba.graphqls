@@ -76,20 +76,26 @@ type PlayerStats {
     rpg: Float
     apg: Float
     stealspergame: Float
+    bpg: Float
+    tov: Float
     fgpercent: Float
     ftpercent: Float
+    fgthreepercent: Float
     season: String
 }
 
 input PlayerStatsInput {
-    playerId: Int!
+    playerId: Int
     minpergame: Float
     ppg: Float
     rpg: Float
     apg: Float
     stealspergame: Float
+    bpg: Float
+    tov: Float
     fgpercent: Float
     ftpercent: Float
+    fgthreepercent: Float
     season: String
 }
 
@@ -105,7 +111,7 @@ input UserInput {
 }
 
 type Mutation {
-    createPlayer(teamId: ID, playerInput: PlayerInput!): Int
+    createPlayer(playerInput: PlayerInput!): Int
     createTeam(teamInput: TeamInput!): Int
     updatePlayer(playerId: ID, playerInput: PlayerInput!): Int
     updateTeam(teamId: ID, teamInput: TeamInput!): Int

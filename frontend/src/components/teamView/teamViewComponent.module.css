@@ -1,0 +1,20 @@
+.teamContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the columns horizontally */
+    width: 100%; /* Ensure it takes full width of the parent */
+}
+
+.teamWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; /* Space between the Eastern and Western Conference columns */
+    width: 100%; /* Ensure it takes full width of the parent */
+    justify-content: center; /* Center columns horizontally within the wrapper */
+}
+
+.conferenceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center teams horizontally within the column */
+}

@@ -10,7 +10,7 @@ const Login = () => {
         try {
             const user = await signInWithGoogle();
             console.log("Welcome", user.displayName);
-            navigate("/stats");
+            navigate("/players/createPlayer");
         } catch (error) {
             console.error(error);
         }

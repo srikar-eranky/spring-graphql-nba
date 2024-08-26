@@ -10,7 +10,6 @@ public class PlayerStatsRowMapper implements RowMapper<PlayerStats> {
 
     @Override
     public PlayerStats mapRow(ResultSet rs, int rowNum) throws SQLException {
-        
         final PlayerStats playerStats = new PlayerStats();
         playerStats.setId(rs.getInt("id"));
         playerStats.setPlayerId(rs.getInt("player_id"));
@@ -19,10 +18,12 @@ public class PlayerStatsRowMapper implements RowMapper<PlayerStats> {
         playerStats.setRpg(rs.getDouble("rpg"));
         playerStats.setApg(rs.getDouble("apg"));
         playerStats.setStealspergame(rs.getDouble("stealspergame"));
+        playerStats.setBpg(rs.getDouble("bpg"));                // Added line for bpg
+        playerStats.setTov(rs.getDouble("tov"));                // Added line for tov
         playerStats.setFgpercent(rs.getDouble("fgpercent"));
         playerStats.setFtpercent(rs.getDouble("ftpercent"));
+        playerStats.setFgthreepercent(rs.getDouble("fgthreepercent")); // Added line for fgthreepercent
         playerStats.setSeason(rs.getString("season"));
-        
         return playerStats;
     }
 }

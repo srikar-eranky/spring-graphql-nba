@@ -35,8 +35,11 @@ CREATE TABLE PLAYERSTATS (
     rpg FLOAT,
     apg FLOAT,
     stealspergame FLOAT,
+    bpg FLOAT,
+    tov FLOAT,
     fgpercent FLOAT,
     ftpercent FLOAT,
+    fgthreepercent FLOAT,
     season varchar(100),
     PRIMARY KEY (id),
     FOREIGN KEY (player_id) REFERENCES PLAYER(id)

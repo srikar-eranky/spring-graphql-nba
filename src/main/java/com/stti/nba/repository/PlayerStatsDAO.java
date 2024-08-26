@@ -43,8 +43,11 @@ public class PlayerStatsDAO {
         Double apg = playerStatsInput.getApg();
         Double rpg = playerStatsInput.getRpg(); 
         Double spg = playerStatsInput.getStealspergame();
+        Double bpg = playerStatsInput.getBpg();           // Added block per game (bpg)
+        Double tov = playerStatsInput.getTov();           // Added turnovers per game (tov)
         Double fgPercent = playerStatsInput.getFgpercent();
         Double ftPercent = playerStatsInput.getFtpercent();
+        Double fgThreePercent = playerStatsInput.getFgthreepercent(); // Added field goal three-point percentage (fgthreepercent)
         String season = playerStatsInput.getSeason();
 
         StringBuilder sql = new StringBuilder("UPDATE PLAYERSTATS SET ");
@@ -103,6 +106,28 @@ public class PlayerStatsDAO {
                 first = false;
             }
         }
+
+        if (bpg < 0) {   // Added validation for bpg
+            throw new InvalidArgumentException("bpg");
+        } else {
+            if(bpg != null) {
+                if(!first) sql.append(", ");
+                sql.append("bpg = ?");
+                arr.add(bpg);
+                first = false;
+            }
+        }
+
+        if (tov < 0) {   // Added validation for tov
+            throw new InvalidArgumentException("tov");
+        } else {
+            if(tov != null) {
+                if(!first) sql.append(", ");
+                sql.append("tov = ?");
+                arr.add(tov);
+                first = false;
+            }
+        }
         
         if (fgPercent < 0) {
             throw new InvalidArgumentException("fgPercent");
@@ -122,6 +147,17 @@ public class PlayerStatsDAO {
                 if(!first) sql.append(", ");
                 sql.append("ftpercent = ?");
                 arr.add(ftPercent);
+                first = false;
+            }
+        }
+
+        if (fgThreePercent < 0) {   // Added validation for fgthreepercent
+            throw new InvalidArgumentException("fgThreePercent");
+        } else {
+            if(fgThreePercent != null) {
+                if(!first) sql.append(", ");
+                sql.append("fgthreepercent = ?");
+                arr.add(fgThreePercent);
                 first = false;
             }
         }
