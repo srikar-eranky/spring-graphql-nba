@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useApolloClient, gql } from "@apollo/client";
 import Loading from "../../../components/loading/Loading";
+import SelectPosition from "../../../components/selectPosition/PositionSelectComponent";
 
 const CreatePlayer = () => {
     const GET_TEAMS = gql`
@@ -52,9 +53,8 @@ const CreatePlayer = () => {
     };
 
     // Handler for position changes
-    const handlePositionChange = (event) => {
-        const value = event.target.value;
-        setPosition(value.trim() === '' ? null : value);
+    const handlePositionChange = (position) => {
+        setPosition(position);
     };
 
     const getTeams = async () => {
@@ -71,32 +71,36 @@ const CreatePlayer = () => {
     }
 
     const createPlayer = async () => {
-        const playerInput = {
-            teamId: teamId,
-            name: name,
-            age: age,
-            height: height,
-            position: position
-        }
-        if(teamId === null){
-            alert("choose a team");
-            return;
-        }
-        if(name === null) {
-            alert("Enter a name");
-            return;
-        }
-        const { data, error, loading } = await client.mutate({
-            mutation: CREATE_PLAYER,
-            variables: {
-                playerInput: playerInput
+        try {
+            const playerInput = {
+                teamId: teamId,
+                name: name,
+                age: age,
+                height: height,
+                position: position
             }
-        });
-        if (error) {
-            console.log(error);
-            return;
+            if(teamId === null){
+                alert("choose a team");
+                return;
+            }
+            if(name === null) {
+                alert("Enter a name");
+                return;
+            }
+            if(position == null) {
+                alert("Choose position");
+                return;
+            }
+            const { data, error, loading } = await client.mutate({
+                mutation: CREATE_PLAYER,
+                variables: {
+                    playerInput: playerInput
+                }
+            });
+            console.log(data);
+        } catch (error) {
+            setError(error.message);
         }
-        console.log(data);
     }
 
     useEffect(() => {
@@ -128,10 +132,7 @@ const CreatePlayer = () => {
                 <input type="text" value={height || ''} onChange={handleHeightChange} />
             </label>
             <br />
-            <label>
-                Position:
-                <input type="text" value={position || ''} onChange={handlePositionChange} />
-            </label>
+            <SelectPosition setPosition={handlePositionChange} />
             <button onClick={createPlayer}>Submit</button>
         </>
     )

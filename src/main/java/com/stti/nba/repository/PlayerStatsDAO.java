@@ -197,4 +197,14 @@ public class PlayerStatsDAO {
             throw new PlayerNotFoundException("Player " + playerId + " not found");
         }
     }
+
+    public List<PlayerStats> deletePlayerStats(int playerId) {
+        List<PlayerStats> playerStats = getPlayerStats(playerId);
+        try {
+            jdbcTemplate.update("DELETE FROM PLAYERSTATS WHERE player_id = ?", new Object[]{playerId});
+            return playerStats;
+        } catch (Exception e) {
+            throw new PlayerNotFoundException("Player " + playerId + " not found");
+        }
+    }
 }

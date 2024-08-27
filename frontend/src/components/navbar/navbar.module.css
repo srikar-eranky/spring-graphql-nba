@@ -1,0 +1,11 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    
+}
+
+.navElement {
+    cursor: pointer;
+    margin: 10px;
+}

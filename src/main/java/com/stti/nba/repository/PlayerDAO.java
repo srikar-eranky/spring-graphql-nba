@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.stti.nba.entity.Player;
 import com.stti.nba.entity.PlayerInput;
+import com.stti.nba.entity.PlayerStats;
 import com.stti.nba.errors.dataexceptions.InvalidArgumentException;
 import com.stti.nba.errors.dataexceptions.PlayerAlreadyExistsException;
 import com.stti.nba.errors.dataexceptions.PlayerNotFoundException;
@@ -22,6 +23,9 @@ import com.stti.nba.errors.dataexceptions.TeamNotFoundException;
 public class PlayerDAO {
 
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    PlayerStatsDAO playerStatsDAO;
 
     @Autowired
     public void setDataSource(DataSource dataSource){
@@ -155,6 +159,7 @@ public class PlayerDAO {
     // delete a player - returns deleted player
     public Player deletePlayer(int playerId) {
         Player p = getPlayerByPlayerId(playerId);
+        List<PlayerStats> playerStats = playerStatsDAO.deletePlayerStats(playerId);
 
         if(p != null) {
             jdbcTemplate.update("DELETE FROM Player WHERE id = ?", new Object[]{playerId});

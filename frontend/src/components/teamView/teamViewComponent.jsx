@@ -1,5 +1,5 @@
-import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useQuery, gql, useApolloClient } from "@apollo/client";
 import Loading from "../loading/Loading";
 import TeamCard from "./teamCard/teamCardComponent";
 import styles from './teamViewComponent.module.css';
@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 const TeamViewComponent = () => {
 
     const navigate = useNavigate();
+    const client = useApolloClient();
+    const [teams, setTeams] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const GET_TEAMS = gql`
     {
@@ -20,14 +24,29 @@ const TeamViewComponent = () => {
     }
     `
 
-    const { loading, error, data } = useQuery(GET_TEAMS);
+    const getTeams = async () => {
+        setLoading(true);
+        try {
+            const { data } = await client.query({
+                query: GET_TEAMS,
+                fetchPolicy: 'network-only'
+            });
+            setTeams(data.teams);
+            setLoading(false);
+        } catch (error) {
+            setError(error.message);
+        }
+    }
+
+    useEffect(() => {
+        getTeams();
+    }, []);
 
     if(loading) return <Loading />;
-    if (error) return <p>Error: {error.message}</p>;
+    if (error) return <p>Error: {error}</p>;
 
-    const teamsData = data.teams;
-    const easternTeams = teamsData.filter((team) => team.conference === "East");
-    const westernTeams = teamsData.filter((team) => team.conference === "West");
+    const easternTeams = teams.filter((team) => team.conference === "East");
+    const westernTeams = teams.filter((team) => team.conference === "West");
 
     const handleTeamClick = (teamId) => {
         return () => {

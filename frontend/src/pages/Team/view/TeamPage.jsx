@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from './teamPage.module.css';
 import { useNavigate, useParams } from "react-router-dom";
 import { useApolloClient, gql } from "@apollo/client";
-import PlayerCard from "../../components/playerView/playerCard/playerCardComponent";
-import Loading from "../../components/loading/Loading";
+import PlayerCard from "../../../components/playerView/playerCard/playerCardComponent";
+import Loading from "../../../components/loading/Loading";
 
 const TeamPage = () => {
     const { teamId } = useParams();
@@ -40,8 +40,9 @@ const TeamPage = () => {
             const { data } = await client.query({
                 query: GET_PLAYERS_ON_TEAM,
                 variables: {
-                    teamId: parseInt(teamId)
-                }
+                    teamId: teamId
+                },
+                fetchPolicy: 'network-only'
             })
             const playersOnTeam = data.playersByTeamId;
             setPlayers(playersOnTeam);
