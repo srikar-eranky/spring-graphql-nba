@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; 
+}
+
+.form {
+    border: 2px solid black;
+    padding: 20px;
+    box-shadow: 10px 5px 5px gray;
+    background-color: #f9f9f9;
+    width: 50%; 
+    box-sizing: border-box; 
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; 
+}
+
+.row.single {
+    justify-content: flex-start;
+    gap: 5vw;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}

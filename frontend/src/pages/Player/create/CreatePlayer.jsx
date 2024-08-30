@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useApolloClient, gql } from "@apollo/client";
 import Loading from "../../../components/loading/Loading";
 import SelectPosition from "../../../components/selectPosition/PositionSelectComponent";
+import styles from './createPlayer.module.css';
 
 const CreatePlayer = () => {
     const GET_TEAMS = gql`
@@ -91,7 +92,7 @@ const CreatePlayer = () => {
                 alert("Choose position");
                 return;
             }
-            const { data, error, loading } = await client.mutate({
+            const { data } = await client.mutate({
                 mutation: CREATE_PLAYER,
                 variables: {
                     playerInput: playerInput
@@ -111,30 +112,48 @@ const CreatePlayer = () => {
     if(graphError) return <p>Error: {graphError}</p>;
 
     return (
-        <>
-            <select onChange={handleTeamIdChange}>
-                {teams.map((team) => (
-                    <option key={team.id} value={team.id}>{team.name}</option>
-                ))}
-            </select>
-            <label>
-                Name:
-                <input type="text" value={name || ''} onChange={handleNameChange} />
-            </label>
-            <br />
-            <label>
-                Age:
-                <input type="number" value={age || ''} onChange={handleAgeChange} />
-            </label>
-            <br />
-            <label>
-                Height:
-                <input type="text" value={height || ''} onChange={handleHeightChange} />
-            </label>
-            <br />
-            <SelectPosition setPosition={handlePositionChange} />
-            <button onClick={createPlayer}>Submit</button>
-        </>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div className={styles.wrapper}>
+                <h1 style={{ textAlign: "center" }}>Create Player:</h1>
+                
+                <span className={styles.row}>
+                    <label>
+                        <select onChange={handleTeamIdChange}>
+                            <option value={null}>Select a Team</option>
+                            {teams.map((team) => (
+                                <option key={team.id} value={team.id}>{team.name}</option>
+                            ))}
+                        </select>
+                    </label>
+                    
+                    <label>
+                        <SelectPosition setPosition={handlePositionChange} />
+                    </label>
+                </span>
+                
+                <span className={styles.row}>
+                    <label>
+                        <b>Name:</b>
+                        <input type="text" value={name || ''} onChange={handleNameChange} />
+                    </label>
+                    
+                    <label>
+                        <b>Age:</b>
+                        <input type="number" value={age || ''} onChange={handleAgeChange} />
+                    </label>
+                    
+                    <label>
+                        <b>Height:</b>
+                        <input type="text" value={height || ''} onChange={handleHeightChange} />
+                    </label>
+                </span>
+                
+                <div className={styles.center}>
+                    <button onClick={createPlayer}>Submit</button>
+                </div>
+            </div>
+        </div>
+
     )
 }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../contexts/authContext";
 import LogOut from "../logout/Logout";
 import styles from './navbar.module.css';
@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import Login from "../login/Login";
 
 const Navbar = () => {
-    const { signedIn } = useAuth();
+    const { currentUser, signedIn } = useAuth();
     const navigate = useNavigate();
+    const [userClicked, setUserClicked] = useState(false);
 
     const handlePlayerClick = () => {
         if(signedIn) {
@@ -25,6 +26,10 @@ const Navbar = () => {
         }
     }
 
+    const handleUserClicked = (clicked) => {
+        setUserClicked(clicked);
+    }
+
     const handleHome = () => {
         navigate('/');
     }
@@ -33,19 +38,29 @@ const Navbar = () => {
             <div className={styles.navElement} onClick={handleHome}>
                 <p>Home</p>
             </div>
-            <div className={styles.navElement} onClick={handlePlayerClick}>
-                <p>Create Player</p>
-            </div>
-            <div className={styles.navElement} onClick={handleTeamClick}>
-                <p>Create Team</p>
-            </div>
-            {signedIn ? (
-                <div className={styles.navElement}>
-                    <LogOut />
+            {signedIn && (
+                <>
+                    <div className={styles.navElement} onClick={handlePlayerClick}>
+                        <p>Create Player</p>
+                    </div>
+                    <div className={styles.navElement} onClick={handleTeamClick}>
+                        <p>Create Team</p>
+                    </div>
+                </>
+            )}
+            {signedIn && currentUser ? (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <div className={styles.navElement}>
+                        <p onClick={() => setUserClicked(!userClicked)}>{currentUser.displayName} <span style={!userClicked ? { display: "inline-block", transform: "rotate(180deg)"} : { display: "inline-block" }}>^</span></p>
+                        {userClicked && (
+                        <LogOut />
+                        )}
+                    </div>
+                    
                 </div>
             ) : (
                 <div className={styles.navElement}>
-                    <Login />
+                    <Login setUserClicked={handleUserClicked}/>
                 </div>
             )}
         </div>

@@ -161,7 +161,7 @@ public class PlayerDAO {
         Player p = getPlayerByPlayerId(playerId);
         List<PlayerStats> playerStats = playerStatsDAO.deletePlayerStats(playerId);
 
-        if(p != null) {
+        if(p != null && playerStats != null) {
             jdbcTemplate.update("DELETE FROM Player WHERE id = ?", new Object[]{playerId});
             return p;
         }
@@ -172,10 +172,20 @@ public class PlayerDAO {
         List<Player> players = getPlayersByTeamId(teamId);
 
         try {
-            jdbcTemplate.update("DELETE FROM Player WHERE team_id = ?", new Object[]{teamId});
+            for(Player p : players) {
+                deletePlayer(p.getId());
+            }
             return players;
         } catch (Exception e) {
             throw new TeamNotFoundException("Team " + teamId + " not found");
+        }
+    }
+
+    public List<String> getPositions() {
+        try {
+            return jdbcTemplate.query("SELECT * FROM POSITION", (rs, rowNum) -> rs.getString("position"));
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
     }
 }

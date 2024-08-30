@@ -35,6 +35,11 @@ public class PlayerController {
         return playerDAO.getPlayersByTeamId(id);
     }
 
+    @QueryMapping("positions")
+    public List<String> getPositions() {
+        return playerDAO.getPositions();
+    }
+
     // post
     @MutationMapping(name = "createPlayer")
     public int createPlayer(@Argument PlayerInput playerInput){

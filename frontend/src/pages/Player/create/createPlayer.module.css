@@ -1,0 +1,23 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50%; /* Adjust width as needed */
+    border: 2px solid black;
+    box-shadow: 10px 5px 5px gray;
+    padding: 40px;
+    background-color: #f9f9f9;
+    align-items: center; /* Center items horizontally */
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0; /* Adjust margins for more spacing between rows */
+    width: 100%;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Ensure it spans the full width of the wrapper */
+}

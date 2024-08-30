@@ -2,11 +2,12 @@ import React from "react";
 import { signInWithGoogle } from "../../firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setUserClicked }) => {
 
     const navigate  = useNavigate();
 
     const handleLogin = async () => {
+        setUserClicked(false);
         try {
             const user = await signInWithGoogle();
             console.log("Welcome", user.displayName);
@@ -16,9 +17,9 @@ const Login = () => {
         }
     }
     return (
-        <>
-            <button onClick={handleLogin}>Login</button>
-        </>
+        <div onClick={handleLogin}>
+            <p>Login</p>
+        </div>
     );
 }
 

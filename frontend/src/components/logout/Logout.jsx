@@ -14,9 +14,9 @@ const LogOut = () => {
         
     }
     return (
-        <>
-            <button onClick={handleSignOut}>Log Out</button>
-        </>
+        <div style={{ cursor: "pointer" }} onClick={handleSignOut}>
+            <p>Log Out</p>
+        </div>
     )
 }
 

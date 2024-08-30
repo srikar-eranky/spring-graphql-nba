@@ -165,6 +165,13 @@ public class TeamStatsDAO {
         } catch (Exception e) {
             throw new TeamNotFoundException("Team " + teamId + " not found");
         }
-        
+    }
+
+    public void deleteTeamStats(int teamId) {
+        try {
+            jdbcTemplate.update("DELETE FROM TEAMSTATS WHERE team_id = ?", new Object[]{teamId});
+        } catch (Exception e) {
+            throw new TeamNotFoundException("Team " + teamId + " not found");
+        }
     }
 }

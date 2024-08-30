@@ -58,9 +58,17 @@ const PlayerPage = () => {
     const GET_PLAYER_STATS = gql`
         query GetPlayerStats($playerId: ID) {
             getPlayerStats(playerId: $playerId) {
+                minpergame
                 ppg
                 apg
                 rpg
+                stealspergame
+                bpg
+                tov
+                fgpercent
+                ftpercent
+                fgthreepercent
+                season
             }
         }`;
     
@@ -239,20 +247,67 @@ const PlayerPage = () => {
 
     return (
         <div>
-            {player && teamId && teamName && height && position && !updateMode && !deleted ? (
-                <>
+            {player && teamId && teamName && height && position && !deleted ? (
+                <div className={styles.playerWrapper}>
                     <h1>{player.name}</h1>
                     <div className={styles.toggle}>
-                        <button onClick={handleProfileClick}>Profile</button>
-                        <button onClick={handleStatsClick}>Stats</button>
+                        <button style={{ backgroundColor: optionToggle === "profile" ? "lightcyan" : "" }} className={styles.profileStats} onClick={handleProfileClick}>Profile</button>
+                        <button style={{ backgroundColor: optionToggle === "stats" ? "lightcyan" : "" }} className={styles.profileStats} onClick={handleStatsClick}>Stats</button>
                     </div>
                     {optionToggle === "profile" && (
-                        <>
-                            <p>Age: {age}</p>
-                            <p>Team: {teamName}</p>
-                            <p>Height: {height}</p>
-                            <p>Position: {position}</p>
-                        </>
+                        <div>
+                            {updateMode ? (
+                                <div className={styles.updateForm}>
+                                    <div className={styles.updateFormRow}>
+                                        <select onChange={handleTeamChange} defaultValue={teamId}>
+                                            {teams.map((team) => (
+                                                <option key={team.id} value={team.id}>{team.name}</option>
+                                            ))}
+                                        </select>
+                                        <label>
+                                            <SelectPosition setPosition={updatePosition} position={position}/>
+                                        </label>
+                                    </div>
+                                    <div className={styles.updateFormRow}>
+                                        <label>
+                                            Change Name:
+                                            <input 
+                                                type="text" 
+                                                placeholder={name} 
+                                                value={name} 
+                                                onChange={updateName} />
+                                        </label>
+                                        <label>
+                                            Change Age:
+                                            <input 
+                                                type="number"
+                                                placeholder={age}
+                                                value={age}
+                                                onChange={updateAge} />
+                                        </label>
+                                        <label>
+                                            Change Height:
+                                            <input 
+                                                type="text"
+                                                placeholder={height}
+                                                value={height}
+                                                onChange={updateHeight} />
+                                        </label>
+                                    </div>
+                                    <div className={styles.updateButton}>
+                                        <button onClick={handlePlayerUpdate}>Save Player</button>
+                                        <button onClick={() => setUpdateMode(false)}>Cancel</button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div style={{ textAlign: "center" }}>
+                                    <p><b>Age:</b> {player.age}</p>
+                                    <p><b>Team:</b> {teamName}</p>
+                                    <p><b>Height:</b> {player.height}</p>
+                                    <p><b>Position:</b> {player.position}</p>
+                                </div>
+                            )}
+                        </div>
                     )}
                     {optionToggle === "stats" && (
                         <>
@@ -260,65 +315,44 @@ const PlayerPage = () => {
                             <table>
                                 <tbody>
                                     <tr>
+                                        <th>Season</th>
+                                        <th>MPG</th>
                                         <th>PPG</th>
                                         <th>APG</th>
                                         <th>RPG</th>
+                                        <th>STL</th>
+                                        <th>BLK</th>
+                                        <th>TOV</th>
+                                        <th>FG %</th>
+                                        <th>FT %</th>
+                                        <th>FG3 %</th>
                                     </tr>
                                     {stats.map((season, index) => (
                                         <tr key={index}>
+                                            <td>{season.season}</td>
+                                            <td>{season.minpergame.toFixed(1)}</td>
                                             <td>{season.ppg.toFixed(2)}</td>
                                             <td>{season.apg.toFixed(2)}</td>
                                             <td>{season.rpg.toFixed(2)}</td>
+                                            <td>{season.stealspergame.toFixed(2)}</td>
+                                            <td>{season.bpg.toFixed(2)}</td>
+                                            <td>{season.tov.toFixed(2)}</td>
+                                            <td>{((season.fgpercent) * 100).toFixed(1)}</td>
+                                            <td>{((season.ftpercent) * 100).toFixed(1)}</td>
+                                            <td>{((season.fgthreepercent) * 100).toFixed(1)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </>    
                     )}
-                    {signedIn && 
-                    <>
+                    {signedIn && optionToggle !== "stats" && !updateMode &&
+                    <div className={styles.updateAndDelete}>
                         <button onClick={handleUpdateMode}>Update Player</button>
                         <button onClick={handleDeletePlayer}>Delete Player</button>
-                    </>
+                    </div>
                     }
-                </>
-            ) : updateMode ? (
-                <>
-                    <select onChange={handleTeamChange} defaultValue={teamId}>
-                        {teams.map((team) => (
-                            <option key={team.id} value={team.id}>{team.name}</option>
-                        ))}
-                    </select>
-                    <label>
-                        Change Name:
-                        <input 
-                            type="text" 
-                            placeholder={name} 
-                            value={name} 
-                            onChange={updateName} />
-                    </label>
-                    <label>
-                        Change Age:
-                        <input 
-                            type="number"
-                            placeholder={age}
-                            value={age}
-                            onChange={updateAge} />
-                    </label>
-                    <label>
-                        Change Height:
-                        <input 
-                            type="text"
-                            placeholder={height}
-                            value={height}
-                            onChange={updateHeight} />
-                    </label>
-                    <label>
-                        Change Position:
-                        <SelectPosition setPosition={updatePosition} />
-                    </label>
-                    <button onClick={handlePlayerUpdate}>Save Player</button>
-                </>
+                </div>
             ) : deleted ? (
                 <>
                     <p>{deletedPlayerName} successfully deleted</p>
@@ -326,7 +360,6 @@ const PlayerPage = () => {
             ) : (
                 <Loading />
             )}
-            
         </div>
     )
 }

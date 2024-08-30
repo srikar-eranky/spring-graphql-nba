@@ -24,6 +24,9 @@ public class TeamDAO {
     PlayerDAO playerDAO;
 
     @Autowired
+    TeamStatsDAO teamStatsDAO;
+
+    @Autowired
     public void setDataSource(DataSource dataSource){
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
@@ -161,6 +164,7 @@ public class TeamDAO {
 
         if(t != null) {
             playerDAO.deletePlayersOnTeam(teamId);
+            teamStatsDAO.deleteTeamStats(teamId);
             t.setPlayers(null);
             jdbcTemplate.update("DELETE FROM Team WHERE id = ?", new Object[]{teamId});
             return t;

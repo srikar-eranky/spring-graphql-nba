@@ -1,11 +1,12 @@
 import React from "react";
+import styles from './playerCardComponent.module.css';
 
 const PlayerCard = ({ player, onClick }) => {
     return (
-        <div style={{"border": "1px solid black", "cursor": "pointer"}} onClick={onClick}>
-            <p>Player Id: {player.id}</p>
-            <p>Player Name: {player.name}</p>
-            <p>Player Age: {player.age}</p>
+        <div className={styles.card} onClick={onClick}>
+            <p><b>Player Id:</b> {player.id}</p>
+            <p><b>Player Name:</b> {player.name}</p>
+            <p><b>Player Age:</b> {player.age}</p>
         </div>
     )
 }

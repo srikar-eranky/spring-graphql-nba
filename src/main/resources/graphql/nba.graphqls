@@ -125,6 +125,7 @@ type Mutation {
 type Query {
     teams : [Team]
     players : [Player]
+    positions : [String]
     playerByPlayerId(id: ID) : Player
     teamById(id: ID) : Team
     playersByTeamId(teamId: ID) : [Player]

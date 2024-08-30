@@ -1,25 +1,46 @@
-import React from "react";
+import { gql, useApolloClient } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import styles from './positionSelectComponent.module.css';
 
-const SelectPosition = ({ setPosition }) => {
+const SelectPosition = ({ setPosition, position }) => {
+    
+    const client = useApolloClient();
+    const [positions, setPositions] = useState([]);
+
+    const GET_POSITIONS = gql`
+    {
+        positions
+    }
+    `
+
+    const getPositions = async () => {
+        try {
+            const { data } = await client.query({
+                query: GET_POSITIONS
+            });
+            setPositions(data.positions);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getPositions();
+    }, [])
 
     const handlePositionChange = (event) => {
         setPosition(event.target.value);
     };
 
     return (
-        <>
-            <label>Select Position:</label>
-            <select name="position" onChange={handlePositionChange}>
-                <option value="">--</option>
-                <option value="FORWARD">FORWARD</option>
-                <option value="GUARD">GUARD</option>
-                <option value="CENTER">CENTER</option>
-                <option value="FORWARD-CENTER">FORWARD-CENTER</option>
-                <option value="CENTER-FORWARD">CENTER-FORWARD</option>
-                <option value="GUARD-FORWARD">GUARD-FORWARD</option>
-                <option value="FORWARD-GUARD">FORWARD-GUARD</option>
+        <div className={styles.positionSelect}>
+            <select name="position" defaultValue={position} onChange={handlePositionChange}>
+                <option value="">Select Position</option>
+                {positions.map((position, index) => (
+                    <option key={index} value={position}>{position}</option>
+                ))}
             </select>
-        </>
+        </div>
     )
 }
 

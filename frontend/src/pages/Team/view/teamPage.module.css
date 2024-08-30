@@ -1,5 +1,76 @@
 .toggle {
     display: flex;
     flex-direction: row;
+    width: 10%;
+    justify-content: space-between;
+}
+
+.centerButtons {
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+}
+
+.teamView {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    margin: 25px;
+}
+
+.teamHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+td, th {
+    text-align: center;
+    padding: 10px;
+}
+
+table {
+    border: 1px solid black;
+}
+
+.formGroup {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Full width of the form */
+    margin-bottom: 15px; /* Space between rows */
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%; /* Adjust width as needed */
+    margin: auto; /* Centers the form horizontally */
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px; /* Space between labels and inputs */
+}
+
+input, select {
+    margin-top: 5px; /* Space between label and input */
+    padding: 5px;
+    width: 100%; /* Full width of the container */
+}
+
+.saveButton {
+    padding: 10px 20px;
+    border: none;
+    background-color: lightblue;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.playerCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 5%;
 }

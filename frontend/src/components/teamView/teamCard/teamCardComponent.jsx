@@ -1,8 +1,9 @@
 import React from "react";
+import styles from './teamCardComponent.module.css';
 
 const TeamCard = ({ team, onClick }) => {
     return (
-        <div style={{"border": "1px solid black", "cursor": "pointer"}} onClick={onClick}>
+        <div className={styles.teamCard} onClick={onClick}>
             <p>Id: {team.id}</p>
             <p>Name: {team.name}</p>
             <p>City: {team.city}</p>
